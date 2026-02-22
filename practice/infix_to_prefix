@@ -1,0 +1,62 @@
+"""
+Logic
+Reverse the infix expression
+Swap ( with )
+Apply Infix → Postfix logic
+Reverse the result → This is Prefix
+"""
+
+def infix_to_prefix(exp):
+    def priarty(op):
+        if op=='+' or op=='-':
+            return 1
+        if op=='*' or op=='/':
+            return 2
+        if op=='^':
+            return 3
+        return 0
+    exp=exp[::-1]
+    exp=list(exp)
+    for i in range(len(exp)):
+        if exp[i]=='(':
+            exp[i]=')'
+        elif exp[i]==')':
+            exp[i]='('
+            
+    stack=[]
+    ans=""
+    for i in exp:
+        if i.isalnum():
+            ans+=i 
+        elif i=='(':
+            stack.append(i)
+        elif i==')':
+            while stack and stack[-1]!='(':
+                ans+=stack.pop()
+            stack.pop()
+        else:
+            while (stack and priarty(i) < priarty(stack[-1])):
+                ans+=stack.pop()
+            stack.append(i)
+    while stack:
+        ans+=stack.pop()
+    return ans[::-1]
+            
+            
+expr = "A+B*(C-D)"
+print(infix_to_prefix(expr))
+    
+ # op---->+A*B-CD   
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
+    
